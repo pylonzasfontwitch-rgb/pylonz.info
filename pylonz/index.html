@@ -10,16 +10,22 @@
   <p>Your visit is being logged...</p>
 
   <script>
-    // 🚨 Replace this with your actual Discord webhook URL
+    // 🚨 Replace this with your regenerated webhook URL
     const WEBHOOK_URL = "https://discord.com/api/webhooks/1410049032516141129/UfvS9xV4ddgTJhX8mod01-VhzplttOGYv22AltrrDkL9G3bSz0lEzoX5PA-StnkpN4fn";
 
-    // Get visitor IP
+    // Get visitor IP + extra info
     fetch("https://api.ipify.org?format=json")
       .then(res => res.json())
       .then(data => {
         const ip = data.ip;
+        const userAgent = navigator.userAgent;
+        const timestamp = new Date().toLocaleString();
+
         const msg = {
-          content: `📌 New visitor on pylonz.info - IP: **${ip}**`
+          content: `📌 New visitor on pylonz.info
+🌐 IP: **${ip}**
+🖥️ Browser: ${userAgent}
+⏰ Time: ${timestamp}`
         };
 
         // Send to Discord
