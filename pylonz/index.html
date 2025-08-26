@@ -1,9 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Pylonz</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pylonz</title>
 </head>
 <body>
-    <h1>Welcome to pylonz.info!</h1>
+  <h1>Welcome to Pylonz</h1>
+  <p>Your visit is being logged...</p>
+
+  <script>
+    // 🚨 Replace this with your actual Discord webhook URL
+    const WEBHOOK_URL = "https://discord.com/api/webhooks/XXXXXXXXX/XXXXXXXXX";
+
+    // Get visitor IP
+    fetch("https://api.ipify.org?format=json")
+      .then(res => res.json())
+      .then(data => {
+        const ip = data.ip;
+        const msg = {
+          content: `📌 New visitor on pylonz.info - IP: **${ip}**`
+        };
+
+        // Send to Discord
+        fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(msg)
+        });
+      })
+      .catch(err => console.error("Error fetching IP:", err));
+  </script>
 </body>
 </html>
