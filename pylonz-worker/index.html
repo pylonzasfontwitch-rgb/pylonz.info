@@ -9,11 +9,11 @@
   <h1>Welcome to Pylonz</h1>
   <p>Your visit is being logged...</p>
 
-  <!-- Call the Cloudflare Worker instead of exposing the webhook -->
   <script>
-     fetch("https://pylonz-worker.pylonzasfontwitch.workers.dev")
-    .catch(err => console.error("Failed to log visitor:", err));
+    // Call the deployed Worker
+    fetch("https://pylonz-worker.pylonzasfontwitch.workers.dev")
+      .then(res => console.log("Visitor logged"))
+      .catch(err => console.error("Failed to log visitor:", err));
   </script>
 </body>
 </html>
-
