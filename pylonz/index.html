@@ -11,9 +11,10 @@
 
   <!-- Call the Cloudflare Worker instead of exposing the webhook -->
   <script>
-    fetch("https://pylonz-worker.pylonzasfontwitch.workers.dev")
-      .catch(err => console.error("Failed to log visitor:", err));
+     fetch("https://pylonz-worker.pylonzasfontwitch.workers.dev")
+    .catch(err => console.error("Failed to log visitor:", err));
   </script>
 </body>
 </html>
+
 
