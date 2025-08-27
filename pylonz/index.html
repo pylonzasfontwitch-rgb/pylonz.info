@@ -9,34 +9,10 @@
   <h1>Welcome to Pylonz</h1>
   <p>Your visit is being logged...</p>
 
+  <!-- Call the Cloudflare Worker instead of exposing the webhook -->
   <script>
-    // 🚨 Replace this with your regenerated webhook URL
-    const WEBHOOK_URL = "https://discord.com/api/webhooks/1410049032516141129/UfvS9xV4ddgTJhX8mod01-VhzplttOGYv22AltrrDkL9G3bSz0lEzoX5PA-StnkpN4fn";
-
-    // Get visitor IP + extra info
-    fetch("https://api.ipify.org?format=json")
-      .then(res => res.json())
-      .then(data => {
-        const ip = data.ip;
-        const userAgent = navigator.userAgent;
-        const timestamp = new Date().toLocaleString();
-
-        const msg = {
-          content: `📌 New visitor on pylonz.info
-🌐 IP: **${ip}**
-🖥️ Browser: ${userAgent}
-⏰ Time: ${timestamp}`
-        };
-
-        // Send to Discord
-        fetch(WEBHOOK_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(msg)
-        });
-      })
-      .catch(err => console.error("Error fetching IP:", err));
+    fetch("https://pylonz-worker.YOURACCOUNT.workers.dev")
+      .catch(err => console.error("Failed to log visitor:", err));
   </script>
 </body>
 </html>
-
