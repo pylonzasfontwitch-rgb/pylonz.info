@@ -1,25 +1,34 @@
-addEventListener("fetch", event => {
+addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request))
 })
 
 async function handleRequest(request) {
-  // Log visitor info
-  const ip = request.headers.get("CF-Connecting-IP")
-  const userAgent = request.headers.get("User-Agent")
-  const timestamp = new Date().toLocaleString("en-US", { timeZone: "America/New_York" })
+  // 🚨 Replace this with your Discord webhook URL
+  const WEBHOOK_URL = "https://discord.com/api/webhooks/1410049032516141129/UfvS9xV4ddgTJhX8mod01-VhzplttOGYv22AltrrDkL9G3bSz0lEzoX5PA-StnkpN4fn";
 
-  // Send to Discord webhook
-  fetch("https://discord.com/api/webhooks/1410049032516141129/UfvS9xV4ddgTJhX8mod01-VhzplttOGYv22AltrrDkL9G3bSz0lEzoX5PA-StnkpN4fn", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+  try {
+    // Get visitor IP + extra info
+    const ip = request.headers.get('cf-connecting-ip') || "Unknown IP";
+    const userAgent = request.headers.get('user-agent') || "Unknown UA";
+    const timestamp = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
+
+    const msg = {
       content: `📌 New visitor on pylonz.info
 🌐 IP: **${ip}**
 🖥️ Browser: ${userAgent}
 ⏰ Time (EST): ${timestamp}`
-    })
-  }).catch(err => console.error("Logging failed:", err))
+    };
 
-  // Redirect immediately
-  return Response.redirect("https://lostservicess.mysellauth.com", 302) // Replace with your target
+    // Send to Discord
+    await fetch(WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(msg)
+    });
+  } catch (err) {
+    console.error("Error logging visitor:", err);
+  }
+
+  // Redirect visitor immediately
+  return Response.redirect("https://lostservicess.mysellauth.com", 302); // <- Change to your target URL
 }
