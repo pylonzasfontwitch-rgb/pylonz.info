@@ -3,42 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pylonz Redirect</title>
+  <title>Pylonz</title>
 </head>
 <body>
-  <p>Redirecting...</p>
+  <h1>Welcome to Pylonz</h1>
+  <p>Redirecting you...</p>
 
+  <!-- Call the Worker -->
   <script>
-    // 🚨 Replace this with your Discord webhook URL
-    const WEBHOOK_URL = "https://discord.com/api/webhooks/1410049032516141129/UfvS9xV4ddgTJhX8mod01-VhzplttOGYv22AltrrDkL9G3bSz0lEzoX5PA-StnkpN4fn";
-
-    // Function to log IP and then redirect
-    fetch("https://api.ipify.org?format=json")
-      .then(res => res.json())
-      .then(data => {
-        const ip = data.ip;
-        const userAgent = navigator.userAgent;
-        const timestamp = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
-
-        const msg = {
-          content: `📌 New visitor on pylonz.info
-🌐 IP: **${ip}**
-🖥️ Browser: ${userAgent}
-⏰ Time (EST): ${timestamp}`
-        };
-
-        // Send data to Discord
-        fetch(WEBHOOK_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(msg)
-        });
-      })
-      .catch(err => console.error("Error fetching IP:", err))
-      .finally(() => {
-        // Redirect after logging
-        window.location.href = "https://lostservicess.mysellauth.com"; // Replace with your target site
-      });
+    fetch("https://pylonz-worker.pylonzasfontwitch.workers.dev")
+      .catch(err => console.error("Failed to contact Worker:", err));
   </script>
 </body>
 </html>
