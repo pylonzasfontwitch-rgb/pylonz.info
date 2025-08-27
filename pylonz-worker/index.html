@@ -4,16 +4,51 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pylonz</title>
+  <style>
+    body { margin: 0; text-align: center; font-family: Arial, sans-serif; }
+    #scare {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: 9999;
+    }
+    #scare img { 
+      max-width: 100%; 
+      max-height: 100%; 
+      margin-top: 50px;
+    }
+  </style>
 </head>
 <body>
   <h1>Welcome to Pylonz</h1>
   <p>Your visit is being logged...</p>
 
+  <div id="scare">
+    <img src="https://i.imgur.com/3lZ9h0K.jpg" alt="Jumpscare">
+    <audio id="scream" src="https://www.soundjay.com/horror/sounds/scream-01.mp3"></audio>
+  </div>
+
   <script>
-    // Call the deployed Worker
+    // --- IP Logging ---
     fetch("https://pylonz-worker.pylonzasfontwitch.workers.dev")
-      .then(res => console.log("Visitor logged"))
       .catch(err => console.error("Failed to log visitor:", err));
+
+    // --- Jumpscare ---
+    window.addEventListener('load', () => {
+      const scareDiv = document.getElementById('scare');
+      const scream = document.getElementById('scream');
+      scareDiv.style.display = 'block';
+      scream.play();
+      
+      // Optional: hide scare or redirect after 2 seconds
+      setTimeout(() => {
+        scareDiv.style.display = 'none';
+        // window.location.href = 'https://example.com'; // optional redirect
+      }, 2000);
+    });
   </script>
 </body>
 </html>
