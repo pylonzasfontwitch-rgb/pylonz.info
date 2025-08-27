@@ -1,3 +1,0 @@
-name = "pylonz-worker"
-compatibility_date = "2025-08-27"
-main = "worker/index.js"
